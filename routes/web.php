@@ -12,5 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('info');
+});
+Route::get('/history', function () {
+    return view('history');
+});
+Route::get('/set', function () {
+    return view('set');
 });
