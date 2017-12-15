@@ -46,6 +46,33 @@
                 </tbody>
             </table>
         </div>
+        <canvas id="myChart" width="500" height="400"></canvas>
+        <script src="{{ URL::asset('js/chart.js/dist/Chart.js')}}"></script>
+        <script>
+            const ctx = document.getElementById("myChart");
+            let myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["Temperature Set", "Temperature Inside", "Temperature Outside"],
+                    datasets: [{
+                        boarderColor:'00FF00',
+                        boarderWidth:'4',
+                        label: 'Temperature',
+                        data: [70, 68, 69],
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
     </div>
 </div>
 <br>

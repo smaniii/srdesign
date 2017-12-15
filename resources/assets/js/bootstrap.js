@@ -20,6 +20,8 @@ try {
  */
 
 window.axios = require('axios');
+require('chart.js');
+window.Chart = require('chart.js');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 

@@ -3,6 +3,7 @@
 <head>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="{{ URL::asset('css/main.css')}}">
+    <script src="{{ URL::asset('js/chart.js/dist/Chart.js')}}"></script>
 </head>
 <body>
 @include('headerAndFooter.header')
@@ -40,6 +41,32 @@
                 </tr>
                 </tbody>
             </table>
+            <canvas id="myChart" width="500" height="400"></canvas>
+            <script>
+                const ctx = document.getElementById("myChart");
+                let myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ["Temperature Set", "Temperature Inside", "Temperature Outside"],
+                        datasets: [{
+                            boarderColor:'00FF00',
+                            boarderWidth:'4',
+                            label: 'Temperature Averages',
+                            data: [70, 68, 69],
+                        }]
+                    },
+                    options: {
+                        responsive: false,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            </script>
         </div>
     </div>
 </div>
@@ -79,6 +106,32 @@
                 </tr>
                 </tbody>
             </table>
+            <canvas id="myChart0" width="500" height="400"></canvas>
+            <script>
+                const ctr = document.getElementById("myChart0");
+                let myChart0 = new Chart(ctr, {
+                    type: 'bar',
+                    data: {
+                        labels: ["Temperature Set", "Temperature Inside", "Temperature Outside"],
+                        datasets: [{
+                            boarderColor:'00FF00',
+                            boarderWidth:'4',
+                            label: 'Temperature Averages',
+                            data: [70, 68, 69],
+                        }]
+                    },
+                    options: {
+                        responsive: false,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            </script>
         </div>
     </div>
 </div>
