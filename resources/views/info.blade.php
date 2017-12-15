@@ -4,6 +4,7 @@
 <head>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="{{ URL::asset('css/main.css')}}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
 </head>
 <body>
 @include('headerAndFooter.header')
@@ -47,7 +48,6 @@
             </table>
         </div>
         <canvas id="myChart" width="500" height="400"></canvas>
-        <script src="{{ URL::asset('js/chart.js/dist/Chart.js')}}"></script>
         <script>
             const ctx = document.getElementById("myChart");
             let myChart = new Chart(ctx, {
