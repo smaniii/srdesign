@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="w3-container">
-                <a href="#" class="w3-btn w3-red" id="center">New Batch</a>
+                <a href="/new" class="w3-btn w3-red" id="center">New Batch</a>
             </div>
             <h1 class="text-center">
                 Current Batch Information

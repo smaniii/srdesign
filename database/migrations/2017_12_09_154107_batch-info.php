@@ -15,10 +15,8 @@ class BatchInfo extends Migration
     {
         Schema::create('batch', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->boolean('done')->defult(false);
-            $table->decimal('tempSet',8,2);
-            $table->integer("runTime")->defult(0);
+            $table->string('name')->default("defult yeast name");
+            $table->decimal('tempSet',8,2)->default(70);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });

@@ -8,6 +8,6 @@ class batchInfo extends Model
 {
     protected $table = 'batch';
 
-    protected $fillable = ['name','tempSet','done',
-        'runTime', 'created_at', 'updated_at', 'id'];
+    protected $fillable = ['name', 'created_at',
+        'updated_at', 'id','tempSet'];
 }

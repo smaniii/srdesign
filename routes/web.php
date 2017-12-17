@@ -13,10 +13,12 @@
 
 Route::get('/', function () {
     return view('info');
-});
+})->name('home');
 Route::get('/history', function () {
     return view('history');
 });
 Route::get('/set', function () {
     return view('set');
 });
+
+Route::get('/new', 'newBatchController@newBatch');

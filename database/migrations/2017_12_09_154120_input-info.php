@@ -21,6 +21,8 @@ class InputInfo extends Migration
             $table->decimal('tempOutside',8,2);
             $table->decimal('pressure',8,2);
             $table->decimal('PH',8,2);
+            $table->boolean('done')->default(false);
+            $table->integer("runTime")->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
