@@ -2,7 +2,7 @@
 <html>
 <head>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Website Font style -->
     <script src="https://use.fontawesome.com/752ce7a84f.js"></script>
     <link rel="stylesheet" href="style.css">
@@ -17,8 +17,8 @@
     <div class="row main">
         <div class="main-login main-center">
             <h5>Set Batch Specifications</h5>
-            <form class="" method="post" action="#">
-
+            <form method="post" action="/set">
+                {{ csrf_field() }}
                 <div class="form-group">
                     <label for="name" class="cols-sm-2 control-label">Set Name</label>
                     <div class="cols-sm-10">
@@ -38,6 +38,7 @@
                         </div>
                     </div>
                 </div>
+                <input type="submit" class="btn btn-info" value="Submit">
 
             </form>
         </div>

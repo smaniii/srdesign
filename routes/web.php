@@ -22,3 +22,4 @@ Route::get('/set', function () {
 });
 
 Route::get('/new', 'newBatchController@newBatch');
+Route::post('/set', 'newBatchController@editBatch');
