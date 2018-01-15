@@ -35,14 +35,14 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>XYZ Yeast</td>
-                    <td>No</td>
-                    <td>70F</td>
-                    <td>2 days</td>
-                    <td>68F</td>
-                    <td>69F</td>
-                    <td>1.4 atm</td>
-                    <td>7</td>
+                    <td>{{$current_batch->name}}</td>
+                    <td>{{$current_information->done}}</td>
+                    <td>{{$current_batch->tempSet}}</td>
+                    <td>{{$current_information->runTime}}</td>
+                    <td>{{$current_information->tempInside}}</td>
+                    <td>{{$current_information->tempOutside}}</td>
+                    <td>{{$current_information->pressure}}</td>
+                    <td>{{$current_information->PH}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -58,7 +58,9 @@
                         boarderColor:'00FF00',
                         boarderWidth:'4',
                         label: 'Temperature',
-                        data: [70, 68, 69],
+                        data: [{!! json_encode($current_batch->tempSet) !!},
+                            {!! json_encode($current_information->tempInside) !!},
+                            {!! json_encode($current_information->tempOutside) !!}],
                     }]
                 },
                 options: {
