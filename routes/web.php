@@ -23,3 +23,7 @@ Route::get('/set', function () {
 
 Route::get('/new', 'newBatchController@newBatch');
 Route::post('/set', 'newBatchController@editBatch');
+
+Route::post('/set_info', 'InformationController@newInformation');
+Route::get('/batch_id', 'InformationController@getCurrentBatchId');
+Route::get('/information', 'InformationController@getInformation');

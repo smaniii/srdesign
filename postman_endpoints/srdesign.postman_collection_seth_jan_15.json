@@ -1,0 +1,136 @@
+{
+	"id": "f171e070-c347-ee22-bd66-d18fa030edc2",
+	"name": "srdesign",
+	"description": "",
+	"order": [
+		"cb016ebd-2e43-b094-eca2-c74043b6d787",
+		"b88412b2-98b8-16ec-c482-86d090127c42",
+		"ee5a014c-dce7-7216-0576-a47a231e89ca"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1516034476753,
+	"owner": "3012588",
+	"public": false,
+	"requests": [
+		{
+			"id": "b88412b2-98b8-16ec-c482-86d090127c42",
+			"headers": "",
+			"headerData": [],
+			"url": "school.dev/batch_id",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "f171e070-c347-ee22-bd66-d18fa030edc2",
+			"data": null,
+			"dataMode": "params",
+			"name": "get current batch id",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1516034960368,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "cb016ebd-2e43-b094-eca2-c74043b6d787",
+			"headers": "",
+			"headerData": [],
+			"url": "school.dev/information",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "f171e070-c347-ee22-bd66-d18fa030edc2",
+			"data": null,
+			"dataMode": "params",
+			"name": "get pi input information",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1516034944522,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "ee5a014c-dce7-7216-0576-a47a231e89ca",
+			"headers": "",
+			"headerData": [],
+			"url": "school.dev/set_info",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "f171e070-c347-ee22-bd66-d18fa030edc2",
+			"data": [
+				{
+					"key": "tempInside",
+					"value": "70",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "tempOutside",
+					"value": "45",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "pressure",
+					"value": "1.66",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "PH",
+					"value": "7",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "batch_id",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "done",
+					"value": "0",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "runTime",
+					"value": "0",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"name": "create new pi input information",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1516034986658,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		}
+	]
+}
