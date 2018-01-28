@@ -1,6 +1,7 @@
 <?php
 use App\batchInfo;
 use App\inputInfo;
+use App\Done;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,10 +14,14 @@ use App\inputInfo;
 */
 
 Route::get('/', function () {
-    return view('info',['current_batch'=>batchInfo::all()->last(),'current_information'=>inputInfo::all()->last()]);
+    return view('info',['current_batch'=>batchInfo::all()->last(),
+        'current_information'=>inputInfo::all()->last(),
+        'is_done'=>Done::all()->last()]);
 })->name('home');
 Route::get('/history', function () {
-    return view('history',['batches'=>batchInfo::all(),'information_inputs'=>inputInfo::all()]);
+    return view('history',['batches'=>batchInfo::all(),
+        'information_inputs'=>inputInfo::all(),
+        'is_done'=>Done::all()]);
 });
 Route::get('/set', function () {
     return view('set');

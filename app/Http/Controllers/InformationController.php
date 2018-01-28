@@ -16,8 +16,6 @@ class InformationController extends Controller
         $inputInfo->pressure = $request->pressure;
         $inputInfo->PH = $request->PH;
         $inputInfo->batch_id = $request->batch_id;
-        $inputInfo->done = $request->done;
-        $inputInfo->runTime = $request->runTime;
         $inputInfo->save();
         return response()->json([
             $inputInfo

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class InputInfo extends Migration
+class CreateDoneTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,13 @@ class InputInfo extends Migration
      */
     public function up()
     {
-        Schema::create('input', function (Blueprint $table) {
+        Schema::create('done', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('batch_id')->unsigned();
             $table->foreign('batch_id')->references('id')->on('batch');
-            $table->decimal('tempInside',8,2)->nullable();
-            $table->decimal('tempOutside',8,2)->nullable();
-            $table->decimal('pressure',8,5)->nullable();
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->boolean('done')->default(false);
+            $table->integer("runTime")->default(0);
+            $table->timestamps();
         });
     }
 
@@ -32,6 +30,6 @@ class InputInfo extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('input');
+        Schema::dropIfExists('done');
     }
 }

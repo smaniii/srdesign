@@ -30,19 +30,17 @@
                     <th >Temperature Inside</th>
                     <th >Temperature Outside</th>
                     <th>Pressure</th>
-                    <th>PH</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>{{$current_batch->name}}</td>
-                    <td>{{$current_information->done}}</td>
+                <td>{{$current_batch->name}}</td>
+                    <td>{{$is_done->done}}</td>
                     <td>{{$current_batch->tempSet}}</td>
-                    <td>{{$current_information->runTime}}</td>
+                    <td>{{$is_done->runTime}}</td>
                     <td>{{$current_information->tempInside}}</td>
                     <td>{{$current_information->tempOutside}}</td>
                     <td>{{$current_information->pressure}}</td>
-                    <td>{{$current_information->PH}}</td>
                 </tr>
                 </tbody>
             </table>
