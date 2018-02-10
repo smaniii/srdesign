@@ -36,11 +36,11 @@
                 <tr>
                 <td>{{$current_batch->name}}</td>
                     <td>{{$is_done->done}}</td>
-                    <td>{{$current_batch->tempSet}}</td>
-                    <td>{{$is_done->runTime}}</td>
-                    <td>{{$current_information->tempInside}}</td>
-                    <td>{{$current_information->tempOutside}}</td>
-                    <td>{{$current_information->pressure}}</td>
+                    <td>{{$current_batch->tempSet}} F</td>
+                    <td>{{$current_batch->created_at->diffInHours($current_information->where('batch_id',$current_batch->id)->get()->last()->created_at) }} hours</td>
+                    <td>{{$current_information->tempInside}} F</td>
+                    <td>{{$current_information->tempOutside}} F</td>
+                    <td>{{$current_information->pressure}} ATM</td>
                 </tr>
                 </tbody>
             </table>
