@@ -38,7 +38,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <canvas id="myChart{{$batch->id}}" width="500" height="400"></canvas>
+                <canvas id="myChart{{$batch->id}}"  width="1000" height="500"></canvas>
                 <script>
                     ctx = document.getElementById("myChart" + "{!! json_encode($batch->id) !!}");
                     //console.log({!! json_encode($information_inputs) !!});
@@ -91,7 +91,7 @@
                                 }],
                         },
                         options: {
-                            responsive: false,
+                            responsive: true,
                             scales: {
                                 yAxes: [{
                                     ticks: {
@@ -102,7 +102,7 @@
                         }
                     });
                 </script>
-                <canvas id="my0Chart{{$batch->id}}" width="500" height="400"></canvas>
+                <canvas id="my0Chart{{$batch->id}}" width="1000" height="500"></canvas>
                 <script>
                     ctx = document.getElementById("my0Chart" + "{!! json_encode($batch->id) !!}");
                     //console.log({!! json_encode($information_inputs) !!});
@@ -140,7 +140,7 @@
                             ],
                         },
                         options: {
-                            responsive: false,
+                            responsive: true,
                             scales: {
                                 yAxes: [{
                                     ticks: {

@@ -9,5 +9,5 @@ class batchInfo extends Model
     protected $table = 'batch';
 
     protected $fillable = ['name', 'created_at',
-        'updated_at', 'id','tempSet'];
+        'updated_at', 'id','tempSet','email'];
 }

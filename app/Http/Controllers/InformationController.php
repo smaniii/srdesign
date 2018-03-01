@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Done;
 use Illuminate\Http\Request;
 use App\inputInfo;
 use App\batchInfo;
+use Illuminate\Support\Facades\Mail;
 
 class InformationController extends Controller
 {
@@ -23,7 +25,7 @@ class InformationController extends Controller
     }
 
     public function getCurrentBatchId(){
-        $batch = batchInfo::all()->max('id');
+        $batch = batchInfo::all()->last();
         return response()->json([
             $batch
         ]);
@@ -36,6 +38,27 @@ class InformationController extends Controller
             $information
         ]);
 
+    }
+
+    public function finish(){
+        $title = "Fermintation Notification";
+        $content = "Batch Done";
+
+        $done = Done::all()->last();
+        $done->done = 1;
+        $done->save();
+
+        Mail::send('emails.finish', ['title' => $title, 'content' => $content], function ($message)
+        {
+            $batch = batchInfo::all()->last();
+
+            $message->from('officialteamucf@gmail.com', 'Seth Levine');
+
+            $message->to($batch->email);
+
+        });
+
+        return response()->json(['message' => 'Request completed']);
     }
 
 }

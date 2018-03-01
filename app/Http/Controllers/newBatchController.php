@@ -26,14 +26,18 @@ class newBatchController extends Controller
     public function editBatch(Request $request){
         $batch = batchInfo::all()->last();
         $validatedData = $request->validate([
-            'name' => 'sometimes|string',
-            'temperature' => 'sometimes|numeric',
+            'name' => 'sometimes|string|nullable',
+            'temperature' => 'sometimes|numeric|nullable',
+            'email' => 'sometimes|email|nullable',
         ]);
         if(!is_null($request->name)){
             $batch->name = $request->name;
         }
         if(!is_null($request->temperature)){
             $batch->tempSet = $request->temperature;
+        }
+        if(!is_null($request->email)){
+            $batch->email = $request->email;
         }
         $batch->save();
         return redirect()->route('home');

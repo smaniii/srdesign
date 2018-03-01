@@ -18,7 +18,9 @@
         <div class="main-login main-center">
             <h5>Set Batch Specifications</h5>
             <form method="post" action="/set">
+
                 {{ csrf_field() }}
+
                 <div class="form-group">
                     <label for="name" class="cols-sm-2 control-label">Set Name</label>
                     <div class="cols-sm-10">
@@ -38,6 +40,17 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label for="email" class="cols-sm-2 control-label">Set Email</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                            <input type="text" class="form-control" name="email"  placeholder="Enter email"/>
+                        </div>
+                    </div>
+                </div>
+
                 <input type="submit" class="btn btn-info" value="Submit">
 
             </form>

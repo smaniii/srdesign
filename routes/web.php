@@ -2,6 +2,7 @@
 use App\batchInfo;
 use App\inputInfo;
 use App\Done;
+use Illuminate\Support\Facades\Mail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,3 +34,5 @@ Route::post('/set', 'newBatchController@editBatch');
 Route::post('/set_info', 'InformationController@newInformation');
 Route::get('/batch_id', 'InformationController@getCurrentBatchId');
 Route::get('/information', 'InformationController@getInformation');
+
+Route::get('/done', 'InformationController@finish');
