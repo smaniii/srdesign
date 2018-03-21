@@ -353,13 +353,6 @@ function PMA_runProcedureAndFunctionDefinitions($db)
  */
 function PMA_createDbBeforeCopy()
 {
-    // lower_case_table_names=1 `DB` becomes `db`
-    if ($GLOBALS['dbi']->getLowerCaseNames() === '1') {
-        $_REQUEST['newname'] = mb_strtolower(
-            $_REQUEST['newname']
-        );
-    }
-
     $local_query = 'CREATE DATABASE IF NOT EXISTS '
         . Util::backquote($_REQUEST['newname']);
     if (isset($_REQUEST['db_collation'])) {
@@ -1478,11 +1471,11 @@ function PMA_getListofMaintainActionLink($pma_table, $url_params)
 function PMA_getMaintainActionlink($action_message, $params, $url_params, $link)
 {
     return '<li>'
-        . '<a class="maintain_action ajax" '
-        . 'href="sql.php'
-        . URL::getCommon(array_merge($url_params, $params)) . '">'
-        . $action_message
-        . '</a>'
+        . Util::linkOrButton(
+            'sql.php' . URL::getCommon(array_merge($url_params, $params)),
+            $action_message,
+            ['class' => 'maintain_action ajax']
+        )
         . Util::showMySQLDocu($link)
         . '</li>';
 }

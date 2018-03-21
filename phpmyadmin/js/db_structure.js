@@ -224,8 +224,11 @@ AJAX.registerOnload('db_structure.js', function () {
             if (a) {
                 if (a.text.trim().toUpperCase().indexOf(filterInput) > -1) {
                     tr[0].style.display = "";
+                    tr.find('input.checkall').removeClass('row-hidden').trigger('change');
                 } else {
                     tr[0].style.display = "none";
+                    tr.find('input.checkall').addClass('row-hidden').prop('checked', false).trigger('change');
+                    tr.removeClass('marked');
                 }
             }
         });
@@ -325,8 +328,7 @@ AJAX.registerOnload('db_structure.js', function () {
 
             PMA_ajaxShowMessage(PMA_messages.strProcessingRequest);
 
-            var params = getJSConfirmCommonParam(this);
-            params.token = PMA_commonParams.get('token');
+            var params = getJSConfirmCommonParam(this, $this_anchor.getPostData());
 
             $.post(url, params, function (data) {
                 if (typeof data !== 'undefined' && data.success === true) {
@@ -389,8 +391,7 @@ AJAX.registerOnload('db_structure.js', function () {
 
             var $msg = PMA_ajaxShowMessage(PMA_messages.strProcessingRequest);
 
-            var params = getJSConfirmCommonParam(this);
-            params.token = PMA_commonParams.get('token');
+            var params = getJSConfirmCommonParam(this, $this_anchor.getPostData());
 
             $.post(url, params, function (data) {
                 if (typeof data !== 'undefined' && data.success === true) {

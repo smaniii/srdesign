@@ -157,58 +157,6 @@ foreach (get_defined_vars() as $key => $value) {
 unset($key, $value, $variables_whitelist);
 
 /**
- * Subforms - some functions need to be called by form, cause of the limited URL
- * length, but if this functions inside another form you cannot just open a new
- * form - so phpMyAdmin uses 'arrays' inside this form
- *
- * <code>
- * <form ...>
- * ... main form elements ...
- * <input type="hidden" name="subform[action1][id]" value="1" />
- * ... other subform data ...
- * <input type="submit" name="usesubform[action1]" value="do action1" />
- * ... other subforms ...
- * <input type="hidden" name="subform[actionX][id]" value="X" />
- * ... other subform data ...
- * <input type="submit" name="usesubform[actionX]" value="do actionX" />
- * ... main form elements ...
- * <input type="submit" name="main_action" value="submit form" />
- * </form>
- * </code>
- *
- * so we now check if a subform is submitted
- */
-$__redirect = null;
-if (isset($_POST['usesubform']) && ! defined('PMA_MINIMUM_COMMON')) {
-    // if a subform is present and should be used
-    // the rest of the form is deprecated
-    $subform_id = key($_POST['usesubform']);
-    $subform    = $_POST['subform'][$subform_id];
-    $_POST      = $subform;
-    $_REQUEST   = $subform;
-    /**
-     * some subforms need another page than the main form, so we will just
-     * include this page at the end of this script - we use $__redirect to
-     * track this
-     */
-    if (isset($_POST['redirect'])
-        && $_POST['redirect'] != basename($PMA_PHP_SELF)
-    ) {
-        $__redirect = $_POST['redirect'];
-        unset($_POST['redirect']);
-    }
-    unset($subform_id, $subform);
-} else {
-    // Note: here we overwrite $_REQUEST so that it does not contain cookies,
-    // because another application for the same domain could have set
-    // a cookie (with a compatible path) that overrides a variable
-    // we expect from GET or POST.
-    // We'll refer to cookies explicitly with the $_COOKIE syntax.
-    $_REQUEST = array_merge($_GET, $_POST);
-}
-// end check if a subform is submitted
-
-/**
  * check timezone setting
  * this could produce an E_WARNING - but only once,
  * if not done here it will produce E_WARNING on every date/time function
@@ -324,13 +272,6 @@ $goto_whitelist = array(
 );
 
 /**
- * check $__redirect against whitelist
- */
-if (! PMA_checkPageValidity($__redirect, $goto_whitelist)) {
-    $__redirect = null;
-}
-
-/**
  * holds page that should be displayed
  * @global string $GLOBALS['goto']
  */
@@ -361,31 +302,56 @@ if (PMA_checkPageValidity($_REQUEST['back'], $goto_whitelist)) {
  * could access this variables before we reach this point
  * f.e. PMA\libraries\Config: fontsize
  *
- * Check for token mismatch only if the Request method is POST
- * GET Requests would never have token and therefore checking
- * mis-match does not make sense
- *
  * @todo variables should be handled by their respective owners (objects)
  * f.e. lang, server, collation_connection in PMA\libraries\Config
  */
-
 $token_mismatch = true;
 $token_provided = false;
+if (PMA_isValid($_REQUEST['token'])) {
+    $token_provided = true;
+    $token_mismatch = ! hash_equals($_SESSION[' PMA_token '], $_REQUEST['token']);
+}
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (PMA_isValid($_POST['token'])) {
-        $token_provided = true;
-        $token_mismatch = ! @hash_equals($_SESSION[' PMA_token '], $_POST['token']);
-    }
-
-    if ($token_mismatch) {
-        /**
-         * We don't allow any POST operation parameters if the token is mismatched
-         * or is not provided
+if ($token_mismatch) {
+    /**
+     *  List of parameters which are allowed from unsafe source
+     */
+    $allow_list = array(
+        /* needed for direct access, see FAQ 1.34
+         * also, server needed for cookie login screen (multi-server)
          */
-        $whitelist = array('ajax_request');
-        PMA\libraries\Sanitize::removeRequestVars($whitelist);
+        'server', 'db', 'table', 'target', 'lang',
+        /* Session ID */
+        'phpMyAdmin',
+        /* Cookie preferences */
+        'pma_lang', 'pma_collation_connection',
+        /* Possible login form */
+        'pma_servername', 'pma_username', 'pma_password',
+        'g-recaptcha-response',
+        /* Needed to send the correct reply */
+        'ajax_request',
+        /* Permit to log out even if there is a token mismatch */
+        'old_usr',
+        /* Permit redirection with token-mismatch in url.php */
+        'url',
+        /* Permit session expiry flag */
+        'session_expired',
+        /* JS loading */
+        'scripts', 'call_done',
+        /* Navigation panel */
+        'aPath', 'vPath', 'pos', 'pos2_name', 'pos2_value', 'searchClause', 'searchClause2'
+    );
+    /**
+     * Allow changing themes in test/theme.php
+     */
+    if (defined('PMA_TEST_THEME')) {
+        $allow_list[] = 'set_theme';
     }
+    /**
+     * Do actual cleanup
+     */
+    PMA\libraries\Sanitize::removeRequestVars($allow_list);
+
 }
 
 
@@ -915,14 +881,6 @@ if (count($_REQUEST) > 1000) {
 // $cfg['ServerDefault'] = 0;
 $GLOBALS['is_superuser']
     = isset($GLOBALS['dbi']) && $GLOBALS['dbi']->isSuperuser();
-
-if (!empty($__redirect) && in_array($__redirect, $goto_whitelist)) {
-    /**
-     * include subform target page
-     */
-    include $__redirect;
-    exit();
-}
 
 // If Zero configuration mode enabled, check PMA tables in current db.
 if (! defined('PMA_MINIMUM_COMMON')

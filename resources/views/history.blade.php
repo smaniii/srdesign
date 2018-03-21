@@ -4,11 +4,26 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="{{ URL::asset('css/main.css')}}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 @include('headerAndFooter.header')
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center">
+                Select the batch you want
+                <select id="selection">
+                    @foreach($batches as $batch)
+                        <option value="{{$batch->id}}">{{$batch->id}}</option>
+                    @endforeach
+                </select>
+            </h1>
+        </div>
+    </div>
+</div>
 @foreach ($batches as $batch)
-    <div class="container">
+    <div id="batch_{{$batch->id}}" class="container">
         <div class="row">
             <div class="col-md-12">
                 <h1 class="text-center">
@@ -151,64 +166,81 @@
                         }
                     });
                 </script>
+                <canvas id="my1Chart{{$batch->id}}" width="1000" height="500"></canvas>
+                <script>
+                    ctx = document.getElementById("my1Chart" + "{!! json_encode($batch->id) !!}");
+                    //console.log({!! json_encode($information_inputs) !!});
+                    var arraysize = "{!! (json_encode($information_inputs->count())) !!}";
+                    //console.log(arraysize);
+                    var array1 = [{!! json_encode($information_inputs) !!}];
+                    var temps = [];
+                    var temps0 = [];
+                    var time = [];
+                    var j = 0;
+                    var temp_set = [];
+                    for(var i =0;i<arraysize;i++){
+                        if(array1[0][i]['batch_id'] == "{!! json_encode($batch->id) !!}" && array1[0][i]['tempInside'] != null){
+                            temps[j] = array1[0][i]['pressure'] / array1[0][i]['tempOutside'];
+                            temps0[j] = array1[0][i]['tempOutside'];
+                            time[j] =  array1[0][i]['created_at'];
+                            temp_set[j] = [{!! (json_encode($batch->tempSet)) !!}];
+                            j++;
+                        }
+                    }
+
+                    j = 0;
+                    let my1Chart{!! json_encode($batch->id) !!} = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: time,
+                            datasets: [{
+                                boarderColor:'00FF00',
+                                boarderWidth:'4',
+                                label: 'Standard Gravity',
+                                data: temps,
+                                "fill":false,
+                                "borderColor":"rgb(125, 47, 88)",
+                            },
+                            ],
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: false
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                </script>
             </div>
         </div>
     </div>
-    <canvas id="my1Chart{{$batch->id}}" width="1000" height="500"></canvas>
-    <script>
-        ctx = document.getElementById("my1Chart" + "{!! json_encode($batch->id) !!}");
-        //console.log({!! json_encode($information_inputs) !!});
-        var arraysize = "{!! (json_encode($information_inputs->count())) !!}";
-        //console.log(arraysize);
-        var array1 = [{!! json_encode($information_inputs) !!}];
-        var temps = [];
-        var temps0 = [];
-        var time = [];
-        var j = 0;
-        var temp_set = [];
-        for(var i =0;i<arraysize;i++){
-            if(array1[0][i]['batch_id'] == "{!! json_encode($batch->id) !!}" && array1[0][i]['tempInside'] != null){
-                temps[j] = array1[0][i]['pressure'] / array1[0][i]['tempOutside'];
-                temps0[j] = array1[0][i]['tempOutside'];
-                time[j] =  array1[0][i]['created_at'];
-                temp_set[j] = [{!! (json_encode($batch->tempSet)) !!}];
-                j++;
-            }
-        }
-
-        j = 0;
-        let my1Chart{!! json_encode($batch->id) !!} = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: time,
-                datasets: [{
-                    boarderColor:'00FF00',
-                    boarderWidth:'4',
-                    label: 'Standard Gravity',
-                    data: temps,
-                    "fill":false,
-                    "borderColor":"rgb(125, 47, 88)",
-                },
-                ],
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: false
-                        }
-                    }]
-                }
-            }
-        });
-    </script>
     </div>
     </div>
     </div>
     <br>
     <br>
 @endforeach
+<script>
+    $( document ).ready(function() {
+        var batches = "{{$batches->last()->id}}";
+        for(var i =1;i<batches;i++){
+            var j = 1+i;
+            $('#batch_'+j).hide();
+        }
+    });
+    $('#selection').on('change', function() {
+        var batches = "{{$batches->last()->id}}";
+        for(var i =0;i<batches;i++){
+            var j = 1+i;
+            $('#batch_'+j).hide();
+        }
+        $('#batch_'+this.value).show();
+    })
+</script>
 @include('headerAndFooter.footer')
 
 </body>
