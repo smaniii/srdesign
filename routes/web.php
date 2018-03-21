@@ -36,3 +36,4 @@ Route::get('/batch_id', 'InformationController@getCurrentBatchId');
 Route::get('/information', 'InformationController@getInformation');
 
 Route::get('/done', 'InformationController@finish');
+Route::get('/now', 'InformationController@now');

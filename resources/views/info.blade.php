@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="{{ URL::asset('css/main.css')}}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 @include('headerAndFooter.header')
@@ -34,13 +35,13 @@
                 </thead>
                 <tbody>
                 <tr>
-                <td>{{$current_batch->name}}</td>
-                    <td>{{$is_done->done}}</td>
-                    <td>{{$current_batch->tempSet}} F</td>
-                    <td>{{$current_batch->created_at->diffInHours($current_information->where('batch_id',$current_batch->id)->get()->last()->created_at) }} hours</td>
-                    <td>{{$current_information->tempInside}} F</td>
-                    <td>{{$current_information->tempOutside}} F</td>
-                    <td>{{$current_information->pressure}} ATM</td>
+                    <td id="batch_name">{{$current_batch->name}}</td>
+                    <td id="done">{{$is_done->done}}</td>
+                    <td id="tempSet">{{$current_batch->tempSet}} F</td>
+                    <td id="hours">{{$current_batch->created_at->diffInHours($current_information->where('batch_id',$current_batch->id)->get()->last()->created_at) }} hours</td>
+                    <td id="tempInside">{{$current_information->tempInside}} F</td>
+                    <td id="tempOutside">{{$current_information->tempOutside}} F</td>
+                    <td id="pressure">{{$current_information->pressure}} ATM</td>
                 </tr>
                 </tbody>
             </table>
@@ -77,6 +78,22 @@
 </div>
 <br>
 <br>
+<script>
+    $(document).ready(function(){
+        setInterval(function(){
+            $.get("https://school.dev/now", function(data, status){
+            }).then(function (data) {
+                document.getElementById('batch_name').innerHTML =data['current_batch']['name'];
+                document.getElementById('hours').innerHTML =data['hours_diff'];
+                document.getElementById('done').innerHTML =data['is_done']['done'];
+                document.getElementById('tempSet').innerHTML =data['current_batch']['tempSet'];
+                document.getElementById('tempInside').innerHTML =data['current_information']['tempInside'];
+                document.getElementById('tempOutside').innerHTML =data['current_information']['tempOutside'];
+                document.getElementById('pressure').innerHTML =data['current_information']['pressure'];
+            });
+        }, 10000);
+    });
+</script>
 
 @include('headerAndFooter.footer')
 

@@ -61,4 +61,13 @@ class InformationController extends Controller
         return response()->json(['message' => 'Request completed']);
     }
 
+    public function now(){
+        $info = [];
+        $info['current_batch'] = batchInfo::all()->last();
+        $info['current_information'] = inputInfo::all()->last();
+        $info['is_done'] = Done::all()->last();
+        $info['hours_diff']= $info['current_batch']->created_at->diffInHours($info['current_information']->where('batch_id',$info['current_batch']->id)->get()->last()->created_at);
+        return response()->json($info,200);
+    }
+
 }
