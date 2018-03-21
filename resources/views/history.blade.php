@@ -24,6 +24,12 @@
 </div>
 @foreach ($batches as $batch)
     <div id="batch_{{$batch->id}}" class="container">
+        <script>
+            var batch = "{{$batch->id}}";
+            if(batch > 1){
+                $('#batch_'+batch).hide();
+            }
+        </script>
         <div class="row">
             <div class="col-md-12">
                 <h1 class="text-center">
@@ -225,13 +231,6 @@
     <br>
 @endforeach
 <script>
-    $( document ).ready(function() {
-        var batches = "{{$batches->last()->id}}";
-        for(var i =1;i<batches;i++){
-            var j = 1+i;
-            $('#batch_'+j).hide();
-        }
-    });
     $('#selection').on('change', function() {
         var batches = "{{$batches->last()->id}}";
         for(var i =0;i<batches;i++){
